@@ -37,7 +37,11 @@
       color: white;
       cursor: pointer;
     }
-    button:hover {
+    button:disabled {
+      background-color: #a0a0a0;
+      cursor: not-allowed;
+    }
+    button:hover:not(:disabled) {
       background-color: #005ea6;
     }
   </style>
@@ -47,6 +51,7 @@
     <div class="question" id="flashcard-question">Click "Next" to start.</div>
     <div class="answer" id="flashcard-answer" style="display: none;"></div>
     <button onclick="showAnswer()">Show Answer</button>
+    <button id="prev-button" onclick="prevCard()" disabled>Previous</button>
     <button onclick="nextCard()">Next</button>
   </div>
 
@@ -104,16 +109,26 @@
       { question: "Identify the benefits of Cisco Business Value Demonstrations (BVD) for SMB sales engagements. (Choose three)", answer: "Aligning solutions with client needs, Demonstrating ROI of solutions, Showcasing practical use cases" },
       { question: "Where does Cisco offer executive-level experiences for customers and partners to align and gain partner mindshare at the C-level?", answer: "CSXs" },
       { question: "What are the essential features of Cisco's solutions that support hybrid work environments for SMBs? (Choose three)", answer: "Seamless connectivity across devices, Advanced collaboration tools, Unified threat management" }
-    ];
-
+    ]; // content omitted for brevity
     let currentIndex = -1;
 
-    function nextCard() {
-      const index = Math.floor(Math.random() * flashcards.length);
-      currentIndex = index;
+    function updateCard(index) {
       document.getElementById('flashcard-question').innerText = flashcards[index].question;
       document.getElementById('flashcard-answer').style.display = 'none';
       document.getElementById('flashcard-answer').innerText = flashcards[index].answer;
+      document.getElementById('prev-button').disabled = (index === 0);
+    }
+
+    function nextCard() {
+      if (flashcards.length === 0) return;
+      currentIndex = (currentIndex + 1) % flashcards.length;
+      updateCard(currentIndex);
+    }
+
+    function prevCard() {
+      if (flashcards.length === 0 || currentIndex <= 0) return;
+      currentIndex = currentIndex - 1;
+      updateCard(currentIndex);
     }
 
     function showAnswer() {
