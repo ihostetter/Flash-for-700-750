@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cisco SMB Flashcards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f4f8;
+    }
+    .card {
+      background: white;
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .question, .answer {
+      font-size: 1.2rem;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #0078d4;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005ea6;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="question" id="flashcard-question">Click "Next" to start.</div>
+    <div class="answer" id="flashcard-answer" style="display: none;"></div>
+    <button onclick="showAnswer()">Show Answer</button>
+    <button onclick="nextCard()">Next</button>
+  </div>
+
+  <script>
+    const flashcards = [
+      { question: "What is the primary purpose of Umbrella's Secure Web Gateway?", answer: "logs and inspects web traffic for full visibility, URL and application controls, and protection against malware" },
+      { question: "How are solutions tailored to meet unique SMB requirements for growth?", answer: "Offer varied payment plans and discounts for bundled products." },
+      { question: "Which global demo engineering platform provides customers, partners, and Cisco employees with demos around Experience Cisco Solutions?", answer: "Product Pulse" },
+      { question: "Which security challenge do SMBs face?", answer: "A shortage of cybersecurity expertise and increasing threat sophistication. And too many security products" },
+      { question: "Which device connects remote SMB workers with power collaboration solutions and award-winning devices?", answer: "Cisco Webex Desk Pro and Webex Board." },
+      { question: "Which Cisco solution helps keep a healthcare patient's information secure?", answer: "Cisco Duo and Cisco Umbrella." },
+      { question: "How do Meraki cameras perform in the smart SMB experience?", answer: "building smarter workspaces" },
+      { question: "Where does Cisco offer executive-level experiences for customers and partners to align and gain partner mindshare at the C-level?", answer: "Cisco Customer Experience Centers (CXC)" },
+      { question: "On which three aspects is Cisco applying focus to change its sales approach?", answer: "solutions, relationships, long term value" },
+      { question: "Meraki Dashboard is used for ease of management of Meraki devices. Which other devices are integrated with the Meraki dashboard?", answer: "Catalyst devices" },
+      { question: "How is Cisco leveling the playing field between virtual and in-person workers?", answer: "inclusive collaboration suite" },
+      { question: "Which key feature does Meraki offer for managing hybrid workforces?", answer: "provides APIs to allow developers to save time by taking advantage of a platform's implementation" },
+      { question: "Which percentage of consumers consider a company's purpose when making a purchase decision?", answer: "80%" },
+      { question: "Which technology is now in the middle of the same type of transformation that revolutionized telephones 20 years ago?", answer: "Video surveillance technology." },
+      { question: "Which Cisco product is part of the smart experience for empowering IT?", answer: "Cisco Meraki Insight." },
+      { question: "Which Cisco solution enables a hybrid experience and offers a VPN solution?", answer: "remote solution" },
+      { question: "What must a hybrid SMB technology solution have?", answer: "zero trust identity-based access" },
+      { question: "Which Cisco product enables video conferencing and communication?", answer: "Cisco Webex." },
+      { question: "The average number of SaaS application categories used by an SMB is 13. What does this mean for business?", answer: "It highlights the need for integrated and secure application access. Plus more security vulnerabilities" },
+      { question: "Which optional Cisco product enhances workspaces within Remote SMB?", answer: "Meraki Cameras" },
+      { question: "Which outcome do Cisco products deliver for SMB Customers?", answer: "enable IT" },
+      { question: "Which Cisco product secures the perimeterless, work-from-anywhere world with Zero Trust?", answer: "Cisco Duo." },
+      { question: "Which of the following is a primary concern that Cisco's security solutions address for SMBs?", answer: "Protecting against cyber threats and data breaches." },
+      { question: "Which Cisco product is part of the Secure SMB experience for enabling people?", answer: "Cisco Umbrella." },
+      { question: "Which fact is driving technology to be more important now than ever?", answer: "It helps drive better outcomes and experiences." },
+      { question: "Which resource is used to learn about Cisco APIs and connect with other developers in Cisco communities?", answer: "Cisco DevNet." },
+      { question: "Video surveillance technology is now in the middle of the same type of transformation as which technology?", answer: "Telephones." },
+      { question: "Which global program scales Cisco's technical resources via third party, services-only partners to provide the channel partners with access to validated expert resources?", answer: "Global Partner Services Accelerator (GPSA)" },
+      { question: "Which Cisco product is a solution offered for SMB experiences?", answer: "Cisco Meraki." },
+      { question: "Cisco's approach to remote workforces primarily emphasizes what?", answer: "Supporting diverse work environments" },
+      { question: "Partners must understand one another's purpose and goal. What does Cisco consider its purpose?", answer: "To power an inclusive future for all." },
+      { question: "Which Cisco product ensures that the right devices are connecting to the right application by the right person?", answer: "Cisco Duo." },
+      { question: "Which Cisco-provided tool do partners use for a demo of the SMB Experiences?", answer: "Business Value Demonstrations (BVD)" },
+      { question: "Which strategy allows an organization to experience 53% fewer cyberattacks and breaches?", answer: "Implementing a proactive security strategy with Zero Trust." },
+      { question: "New applications are deployed daily, each with requirements and concerns. How many new applications are expected by 2025?", answer: "500 million new apps (IDC)." },
+      { question: "Which percent of cyberattacks target SMBs?", answer: "70%" },
+      { question: "How is Cisco transforming the modern workplace?", answer: "by offering a range of solutions designed to enable, enhance, and empower the modern workplace experience" },
+      { question: "How does Cisco help SMBs with security?", answer: "endpoint security with threat hunting and vulnerability management" },
+      { question: "How does Cisco help SMBs to be truly smart?", answer: "Secure Connectivity" },
+      { question: "Which Cisco solution allows the setup of virtual network topologies for non-production testing?", answer: "Cisco Modeling Labs(CML)" },
+      { question: "Which Cisco program offers knowledge about security resilience and how the Cisco Secure portfolio can help customers achieve it?", answer: "Fire Jumper" },
+      { question: "What is a benefit of securing remote SMBs?", answer: "enables the ability to create and execute policy and system compliance" },
+      { question: "Which Meraki product is used on Remote SMB work from anywhere?", answer: "Meraki Systems Manage" },
+      { question: "What are three features of Webex? (Choose three.)", answer: "Calling, Messaging, Meeting" },
+      { question: "What is Cisco Networking Cloud?", answer: "integrated platform for on-premises and cloud operating models" },
+      { question: "Which selling concept represents an account manager selling a security solution that integrates with the customer's current Cisco networking solution?", answer: "Cross Selling" },
+      { question: "Which three features are key benefits of Cisco's SMART IT solutions for SMBs? (Choose three)", answer: "Enhanced data analytics, Automated decision-making, Improved operational efficiency" },
+      { question: "Which of the following are primary focuses of Cisco's SMB strategy? (Choose three)", answer: "Enabling IT teams, Reducing environmental impact, Empowering remote collaboration" },
+      { question: "What does the smart SMB experience enable?", answer: "Building a Smarter Network" },
+      { question: "Identify the benefits of Cisco Business Value Demonstrations (BVD) for SMB sales engagements. (Choose three)", answer: "Aligning solutions with client needs, Demonstrating ROI of solutions, Showcasing practical use cases" },
+      { question: "Where does Cisco offer executive-level experiences for customers and partners to align and gain partner mindshare at the C-level?", answer: "CSXs" },
+      { question: "What are the essential features of Cisco's solutions that support hybrid work environments for SMBs? (Choose three)", answer: "Seamless connectivity across devices, Advanced collaboration tools, Unified threat management" }
+    ];
+
+    let currentIndex = -1;
+
+    function nextCard() {
+      const index = Math.floor(Math.random() * flashcards.length);
+      currentIndex = index;
+      document.getElementById('flashcard-question').innerText = flashcards[index].question;
+      document.getElementById('flashcard-answer').style.display = 'none';
+      document.getElementById('flashcard-answer').innerText = flashcards[index].answer;
+    }
+
+    function showAnswer() {
+      if (currentIndex >= 0) {
+        document.getElementById('flashcard-answer').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
